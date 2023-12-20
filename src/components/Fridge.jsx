@@ -218,7 +218,7 @@ function Fridge(props) {
         <li className="fridge--storage--list-item--header">{food}</li>
         <div className="fridge--storage--list-item--amount">
           <span
-            className="fridge--storage--list-item--add-to-cart"
+            className="default-button"
             onClick={function () {
               addItemToCart(food);
             }}
@@ -321,7 +321,7 @@ function Fridge(props) {
   return (
     <div id="inventory" className="component active">
       <div className="fridge">
-        <div className="fridge--add-item">
+        <div className="search-bar">
           <input
             type="text"
             className="default-input"
@@ -332,8 +332,8 @@ function Fridge(props) {
           </button>
         </div>
         <div className="fridge--storage">
-          <div className="fridge--storage--section">
-            <h3 className="section--header">In Fridge</h3>
+          <div className="fridge-section">
+            <h3 className="section--header">Fridge</h3>
             <ul className="section--list">{avaliableFoodsArr}</ul>
             <button
               className="default-button"
@@ -345,8 +345,8 @@ function Fridge(props) {
               Add Fridge to Recipes
             </button>
           </div>
-          <div className="fridge--storage--section">
-            <h3 className="section--header">To Buy</h3>
+          <div className="fridge-section">
+            <h3 className="section--header">Out of Stock</h3>
             <ul className="section--list">{unavaliableFoodsArr}</ul>
           </div>
         </div>

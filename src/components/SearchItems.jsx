@@ -32,8 +32,8 @@ function SearchItems(props) {
 
   function addIngredient() {
     const ingredient = document
-      .getElementById("search-ingredients--input")
-      .value.toLowerCase();
+      .querySelector(".ingredient-data--name")
+      .textContent.toLowerCase();
 
     if (
       Object.values(ingredients).includes(ingredients[ingredient]) &&
@@ -114,15 +114,14 @@ function SearchItems(props) {
   return (
     <div id="search" className="component">
       <div className="default-section">
-        <h3 className="section--header">Ingredient Search</h3>
-        <div className="search-items--ingredient-search-bar">
+        <div className="search-bar">
           <input
             type="text"
             className="default-input"
             id="search-ingredients--input"
           ></input>
           <button className="default-button" onClick={getIngredientID}>
-            Search
+            Search Ingredient
           </button>
         </div>
         {ingredientID ? <Ingredient id={ingredientID} amount={amount} /> : null}
@@ -131,11 +130,11 @@ function SearchItems(props) {
           id="search-items--ingredient--add-to-ingredients"
           onClick={addIngredient}
         >
-          Add Item to Ingredients
+          Add Ing. to Recipe
         </button>
       </div>
-      <div className="default-section">
-        <h3 className="section--header">Recipe Search</h3>
+      <div className="default-section nonactive" id="recipes-section">
+        <h3 className="section--header">Recipes</h3>
         <div className="search-items--recipe-search--ingredients">
           <h5 className="search-items--recipe-search--ingredients--header">{`Ingredients: ${ingredientsList.join(
             ", "

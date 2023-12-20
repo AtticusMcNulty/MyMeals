@@ -32,7 +32,7 @@ function ShoppingCart(props) {
   return (
     <div className="default-section">
       <h3 className="section--header">Shopping Cart</h3>
-      <div id="shopping-cart--items">{cartItems}</div>
+      <div>{cartItems}</div>
     </div>
   );
 }

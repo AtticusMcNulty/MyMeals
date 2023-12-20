@@ -333,7 +333,7 @@ function MyMeals(props) {
     index
   ) {
     return (
-      <td key={index} className="table-cell--total">
+      <td key={index} className="table-head">
         {parseFloat(total.toFixed(2))}
       </td>
     );
@@ -383,7 +383,7 @@ function MyMeals(props) {
     const units = ["$", "kcal", "g", "g", "g", "mg"];
 
     return (
-      <td key={index} className="table-cell--total">
+      <td key={index} className="table-head">
         {parseFloat(total.toFixed(2))}
         {units[index]}
       </td>
@@ -420,8 +420,8 @@ function MyMeals(props) {
     const units = ["$", "kcal", "g", "g", "g", "mg"];
 
     return (
-      <td key={index} className="table-cell--total">
-        {(parseFloat(total) / weeklyMeals.length).toFixed(2)}
+      <td key={index} className="table-head">
+        {parseFloat((parseFloat(total) / weeklyMeals.length).toFixed(2))}
         {units[index]}
       </td>
     );
@@ -429,37 +429,44 @@ function MyMeals(props) {
 
   return (
     <div className="component" id="my-meals">
-      <div className="my-meals--section">
-        <h3>Create Meal</h3>
-        <div className="my-meals--section--search-ingredient">
-          <input id="my-meals--section--search-ingredient--input"></input>
-          <button onClick={props.searchIngredient}>Search Ing.</button>
+      <div className="default-section">
+        <h3 className="section--header">Create Meal</h3>
+        <div className="search-bar">
+          <input
+            className="default-input"
+            id="my-meals--section--search-ingredient--input"
+          ></input>
+          <button className="default-button" onClick={props.searchIngredient}>
+            Search Ing.
+          </button>
         </div>
-        <table className="table" id="my-meals--create-meal--table">
-          <thead>
-            <tr>
-              <th className="table-head">Name</th>
-              <th className="table-head">Amount</th>
-              <th className="table-head">Cost</th>
-              <th className="table-head">Calories</th>
-              <th className="table-head">Carbs</th>
-              <th className="table-head">Fats</th>
-              <th className="table-head">Protein</th>
-              <th className="table-head">Sodium</th>
-              <th className="table-head">+1</th>
-              <th className="table-head">-1</th>
-            </tr>
-          </thead>
-          <tbody>
-            {foundIngredientsTable}
-            <tr>
-              <td className="table-cell--total" colSpan={2}>
-                Total
-              </td>
-              {foundIngredientTotalsTable}
-            </tr>
-          </tbody>
-        </table>
+        <div className="table-container">
+          <table className="table" id="my-meals--create-meal--table">
+            <thead>
+              <tr>
+                <th className="table-head">Name</th>
+                <th className="table-head">Amount</th>
+                <th className="table-head">Cost</th>
+                <th className="table-head">Calories</th>
+                <th className="table-head">Carbs</th>
+                <th className="table-head">Fats</th>
+                <th className="table-head">Protein</th>
+                <th className="table-head">Sodium</th>
+                <th className="table-head">+1</th>
+                <th className="table-head">-1</th>
+              </tr>
+            </thead>
+            <tbody>
+              {foundIngredientsTable}
+              <tr>
+                <td className="table-head" colSpan={2}>
+                  Total
+                </td>
+                {foundIngredientTotalsTable}
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <button
           className="default-button"
           id="my-meals--section--create-meal--add-to-meal"
@@ -468,30 +475,28 @@ function MyMeals(props) {
           Add to Daily Meals
         </button>
       </div>
-      <div className="my-meals--section">
-        <h3>Daily Tracker</h3>
-        <div className="my-meals--tracker">
-          <table className="my-meals---tracker--table">
+      <div className="default-section">
+        <h3 className="section--header">Daily Tracker</h3>
+        <div className="table-container">
+          <table className="table">
             <thead>
               <tr>
-                <th className="my-meals--daily-tracker--table-head">Name</th>
-                <th className="my-meals--daily-tracker--table-head">Amount</th>
-                <th className="my-meals--daily-tracker--table-head">Cost</th>
-                <th className="my-meals--daily-tracker--table-head">
-                  Calories
-                </th>
-                <th className="my-meals--daily-tracker--table-head">Carbs</th>
-                <th className="my-meals--daily-tracker--table-head">Fats</th>
-                <th className="my-meals--daily-tracker--table-head">Protein</th>
-                <th className="my-meals--daily-tracker--table-head">Sodium</th>
-                <th className="my-meals--daily-tracker--table-head">+1</th>
-                <th className="my-meals--daily-tracker--table-head">-1</th>
+                <th className="table-head">Name</th>
+                <th className="table-head">Amount</th>
+                <th className="table-head">Cost</th>
+                <th className="table-head">Calories</th>
+                <th className="table-head">Carbs</th>
+                <th className="table-head">Fats</th>
+                <th className="table-head">Protein</th>
+                <th className="table-head">Sodium</th>
+                <th className="table-head">+1</th>
+                <th className="table-head">-1</th>
               </tr>
             </thead>
             <tbody>
               {dailyMealsTable}
               <tr>
-                <td className="table-cell--total" colSpan={2}>
+                <td className="table-head" colSpan={2}>
                   Total
                 </td>
                 {dailyMealTotalsTable}
@@ -507,10 +512,10 @@ function MyMeals(props) {
           Add to Weekly Meals
         </button>
       </div>
-      <div className="my-meals--section">
-        <h3>Weekly Tracker</h3>
-        <div className="my-meals--tracker">
-          <table className="my-meals---tracker--table">
+      <div className="default-section">
+        <h3 className="section--header">Weekly Tracker</h3>
+        <div className="table-container">
+          <table className="table">
             <thead>
               <tr>
                 <th className="table-head">Weekday</th>
@@ -525,7 +530,7 @@ function MyMeals(props) {
             <tbody>
               {weeklyMealsTable}
               <tr>
-                <td className="table-cell--total">Total</td>
+                <td className="table-head">Total</td>
                 {weeklyMealTotalsTable}
               </tr>
             </tbody>

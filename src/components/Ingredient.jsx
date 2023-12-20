@@ -41,10 +41,9 @@ function Ingredient(props) {
               .map(function (nutrient, index) {
                 return (
                   <tr key={index}>
-                    <td className="ingredient--table-cell">{`${nutrient.name}`}</td>
-                    <td className="ingredient--table-cell">{`${nutrient.unit}`}</td>
-                    <td className="ingredient--table-cell">{`${nutrient.amount}`}</td>
-                    <td className="ingredient--table-cell">{`${nutrient.percentOfDailyNeeds}`}</td>
+                    <td className="table-cell">{`${nutrient.name}`}</td>
+                    <td className="table-cell">{`${nutrient.amount}${nutrient.unit}`}</td>
+                    <td className="table-cell">{`${nutrient.percentOfDailyNeeds}%`}</td>
                   </tr>
                 );
               })
@@ -73,14 +72,13 @@ function Ingredient(props) {
           <li className="ingredient-data--li">{`Aisle: ${ingredientData.aisle}`}</li>
           <li className="ingredient-data--li">{`Carbs: ${ingredientData.nutrition.caloricBreakdown.percentCarbs}%`}</li>
           <li className="ingredient-data--li">{`Fat: ${ingredientData.nutrition.caloricBreakdown.percentFat}%`}</li>
-          <li className="ingredient-data--li">{`Protien: ${ingredientData.nutrition.caloricBreakdown.percentProtein}%`}</li>
-          <table className="ingredient--table">
+          <li className="ingredient-data--li">{`Protein: ${ingredientData.nutrition.caloricBreakdown.percentProtein}%`}</li>
+          <table className="table" id="ingredient-table">
             <thead>
               <tr>
-                <th className="ingredient--table-head">Name</th>
-                <th className="ingredient--table-head">Unit</th>
-                <th className="ingredient--table-head">Amount</th>
-                <th className="ingredient--table-head">Daily Percent</th>
+                <th className="table-head">Name</th>
+                <th className="table-head">Amount</th>
+                <th className="table-head">Daily Percent</th>
               </tr>
             </thead>
             <tbody>{nutrients}</tbody>

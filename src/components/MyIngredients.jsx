@@ -4,6 +4,9 @@ function MyIngredients(props) {
   // localStorage.removeItem("dailyMealTotals");
   // localStorage.removeItem("dailyMeals");
 
+  // determine whether to add ingredient to MyMeals or remove it from table
+  const [ingredientAction, setIngredientAction] = React.useState("default");
+
   // Modal
   function closeModal() {
     // close create ingredient modal; unblur background; allow scrolling; add new ingredient btn; remove add-ingredient btn
@@ -12,8 +15,6 @@ function MyIngredients(props) {
       .classList.remove("active");
     document.getElementById("overlay").style.display = "none";
     document.body.style.overflow = "scroll";
-    document.getElementById("my-meals--new-ingredient-btn").style.display =
-      "block";
     document.getElementById("my-meals--add-meal--btn-add").style.display =
       "none";
   }
@@ -24,24 +25,25 @@ function MyIngredients(props) {
     document.getElementById("create-ingredient--modal").classList.add("active");
     document.getElementById("overlay").style.display = "block";
     document.body.style.overflow = "hidden";
-    document.getElementById("my-meals--new-ingredient-btn").style.display =
-      "none";
     document.getElementById("my-meals--add-meal--btn-add").style.display =
       "block";
   }
 
   function addIngredient() {
-    const name = document.getElementById("my-meals--add-meal--info--name")
-      .lastChild.value;
+    console.log(document.getElementById("modal-name"));
+    // get name of ingredient to be added
+    const name = document.getElementById("modal-name").value.toLowerCase();
 
     let newIngredient = true;
 
+    // if ingredient is not new, set newIngredient to false
     for (let i = 0; i < props.ingredients.length; i++) {
-      if (props.ingredients[i].Name.toLowerCase() == name.toLowerCase()) {
+      if (props.ingredients[i].Name.toLowerCase() == name) {
         newIngredient = false;
       }
     }
 
+    // if ingredient is new
     if (newIngredient) {
       const newIngredient = {};
 
@@ -95,12 +97,56 @@ function MyIngredients(props) {
     });
   }
 
+  // set action to "add" or "delete" and add "clickable" class to all table rows
+  function updateAction(action) {
+    if (ingredientAction === "default") {
+      setIngredientAction(action);
+    } else {
+      setIngredientAction("default");
+    }
+
+    // toggle clickable class to all table rows
+    document.querySelectorAll(".table-row").forEach(function (row) {
+      row.classList.toggle("clickable");
+    });
+  }
+
+  // choose whether to add ingredient to MyMeals or remove it from the table
+  function toggleIngredient(ingredient, index) {
+    // if "add to mymeals" or "delete ingredient" button has been clicked
+    if (ingredientAction !== "default") {
+      // if "add" button was clicked
+      if (ingredientAction === "add") {
+        addIngredientToMeal(ingredient);
+      }
+      // if "remove" button was clicked
+      else {
+        removeIngredient(index);
+      }
+    }
+
+    // reset state
+    setIngredientAction("default");
+
+    // remove clickable class from all table rows
+    document.querySelectorAll(".table-row").forEach(function (row) {
+      if (row.classList.contains("clickable"))
+        row.classList.remove("clickable");
+    });
+  }
+
   const ingredientsAsTable = props.ingredients.map(function (
     ingredient,
     index
   ) {
     return (
-      <tr key={index}>
+      <tr
+        className="table-row"
+        key={index}
+        onClick={function () {
+          toggleIngredient(ingredient, index);
+        }}
+      >
         <td className="table-cell">{ingredient.Name}</td>
         <td className="table-cell">
           {parseFloat(parseFloat(ingredient.Cost).toFixed(2))}$
@@ -121,18 +167,6 @@ function MyIngredients(props) {
         <td className="table-cell">
           {parseFloat(parseFloat(ingredient.Sodium).toFixed(2))}mg
         </td>
-        <td
-          className="table-cell--btn"
-          onClick={function () {
-            addIngredientToMeal(ingredient);
-          }}
-        ></td>
-        <td
-          className="table-cell--btn"
-          onClick={function () {
-            removeIngredient(index);
-          }}
-        ></td>
       </tr>
     );
   });
@@ -145,11 +179,11 @@ function MyIngredients(props) {
         </span>
         <div className="my-meals--add-meal--info">
           <p>Name:</p>
-          <input></input>
+          <input id="modal-name"></input>
         </div>
         <div className="my-meals--add-meal--info">
           <p>Cost:</p>
-          <input></input>
+          <input type="number"></input>
         </div>
         <div className="my-meals--add-meal--info">
           <p>Category:</p>
@@ -157,23 +191,23 @@ function MyIngredients(props) {
         </div>
         <div className="my-meals--add-meal--info">
           <p>Calories:</p>
-          <input></input>
+          <input type="number"></input>
         </div>
         <div className="my-meals--add-meal--info">
           <p>Carbs:</p>
-          <input></input>
+          <input type="number"></input>
         </div>
         <div className="my-meals--add-meal--info">
           <p>Fat:</p>
-          <input></input>
+          <input type="number"></input>
         </div>
         <div className="my-meals--add-meal--info">
           <p>Protein:</p>
-          <input></input>
+          <input type="number"></input>
         </div>
         <div className="my-meals--add-meal--info">
           <p>Sodium:</p>
-          <input></input>
+          <input type="number"></input>
         </div>
         <button
           className="modal-button"
@@ -183,11 +217,28 @@ function MyIngredients(props) {
           Add Ingredient
         </button>
       </div>
-      <div className="default-section">
-        <h3>Ingredients</h3>
-        <button className="default-button" onClick={createIngredient}>
-          Create Ingredient
-        </button>
+      <div className="transparent-section">
+        <div className="button-row">
+          <button className="default-button" onClick={createIngredient}>
+            Create Ingredient
+          </button>
+          <button
+            className="default-button"
+            onClick={function () {
+              updateAction("add");
+            }}
+          >
+            Add to MyMeals
+          </button>
+          <button
+            className="default-button"
+            onClick={function () {
+              updateAction("delete");
+            }}
+          >
+            Delete Ingredient
+          </button>
+        </div>
         <div className="table-container">
           <table className="table">
             <thead>
@@ -200,8 +251,6 @@ function MyIngredients(props) {
                 <th className="table-head">Fats</th>
                 <th className="table-head">Protein</th>
                 <th className="table-head">Sodium</th>
-                <th className="table-head">MyMeals</th>
-                <th className="table-head">Del</th>
               </tr>
             </thead>
             <tbody>{ingredientsAsTable}</tbody>

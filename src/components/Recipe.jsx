@@ -10,6 +10,9 @@ function Recipe(props) {
     )
       .then((response) => response.json())
       .then((data) => {
+        document
+          .getElementById("recipes-section")
+          .classList.remove("nonactive");
         setRecipeData(data);
       });
   }, [props.list, props.numRecipes]);

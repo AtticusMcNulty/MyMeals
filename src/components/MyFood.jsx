@@ -19,20 +19,18 @@ function MyFood() {
     ).value;
     let invalid = true;
 
-    // check if ingredient exists in list of ingredients
+    /* check if ingredient exists in list of ingredients */
+    // for each ingredient in list of ingredients
     for (let i = 0; i < ingredients.length; i++) {
-      let words = ingredients[i].Name.toLowerCase().split(" ");
+      let ingredientExists = false;
 
-      let isSubstring = false;
+      // get name of current ingredient
+      let curIngredient = ingredients[i].Name;
 
-      words.forEach(function (word) {
-        if (word.includes(ingredient.toLowerCase())) {
-          isSubstring = true;
-        }
-      });
+      if (curIngredient === ingredient) ingredientExists = true;
 
-      // if a word in the title of current list ingredient includes the keyword as a substring (or the word in its entirety)
-      if (isSubstring) {
+      // if ingredient matches current ingredient
+      if (ingredientExists) {
         let found = false;
         let index = 0;
         invalid = false;

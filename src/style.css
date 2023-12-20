@@ -71,8 +71,8 @@ GENERAL
   display: flex;
   flex-direction: column;
 
-  background: #778da9;
-  color: white;
+  background: white;
+  color: #363949;
   text-align: center;
 
   width: auto;
@@ -83,8 +83,18 @@ GENERAL
   margin: 20px auto;
 }
 
+.transparent-section {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0px;
+}
+
+.nonactive {
+  display: none !important;
+}
+
 .section--header {
-  color: white;
+  color: #363949;
   text-align: center;
 
   margin: 0px 0px 10px 0px;
@@ -108,17 +118,32 @@ GENERAL
 
   outline: none;
   border: 0px;
-  box-shadow: 0 0 5px rgba(123, 129, 184, 0.18);
+  box-shadow: 0 0 5px rgba(73, 75, 98, 0.25);
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  margin: 20px 0px;
 }
 
 .default-button {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
+  font-size: 13px;
   background: white;
   color: #363949;
 
   border: 0px;
-  box-shadow: 0 0 5px rgba(123, 129, 184, 0.18);
+  box-shadow: 0 0 5px rgba(73, 75, 98, 0.25);
   border-radius: 6px;
   padding: 5px 10px;
 
@@ -139,7 +164,7 @@ GENERAL
   background: white;
   color: #363949;
 
-  border: 0px;
+  border: 1px solid #000;
   box-shadow: 0 0 1px rgba(73, 75, 98, 0.18);
   border-radius: 6px;
 
@@ -150,7 +175,7 @@ GENERAL
 }
 
 .default-button--char:hover {
-  background: rgb(244, 242, 242);
+  background: #f0f0f0;
 }
 
 .modal-button {
@@ -187,6 +212,7 @@ GENERAL
   color: #363949;
 
   border: 1px solid #363949;
+  border-radius: 5px;
   border-collapse: collapse;
   margin-top: 20px;
   width: 100%;
@@ -194,6 +220,14 @@ GENERAL
 
 .table tr:nth-child(odd) {
   background-color: rgb(232, 232, 232);
+}
+
+tr.clickable {
+  cursor: pointer;
+}
+
+tr.clickable:hover {
+  opacity: 0.7;
 }
 
 .table-head {
@@ -241,6 +275,7 @@ GENERAL
   z-index: 0;
 }
 
+/* MODAL */
 .modal {
   display: none;
   background: rgb(255, 255, 255);
@@ -282,11 +317,11 @@ FRIDGE INVENTORY
   gap: 30px;
 }
 
-.fridge--storage--section {
+.fridge-section {
   display: flex;
   flex-direction: column;
 
-  background: #778da9;
+  background: white;
   box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
   flex-grow: 1;
 
@@ -306,22 +341,12 @@ FRIDGE INVENTORY
   }
 }
 
-.fridge--add-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-
-  margin: 20px 0px;
-}
-
 .fridge--storage--list-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   margin-top: 10px;
-  color: white;
   text-transform: capitalize;
 }
 
@@ -403,17 +428,12 @@ FRIDGE INVENTORY
 SHOPPING CART 
 **
 */
-#shopping-cart--items {
-  list-style-type: none;
-  padding: 0px;
-}
-
 .shopping-cart--item {
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  color: white;
+  color: #363949;
   text-transform: capitalize;
 
   margin: 10px 0px 0px 0px;
@@ -434,13 +454,8 @@ SHOPPING CART
 SEARCH ITEMS
 **
 */
-.search-items--ingredient-search-bar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-
-  margin: 15px 0px 0px 0px;
+#ingredient-table {
+  margin-top: 5px;
 }
 
 .search-items--recipe-search {
@@ -518,7 +533,7 @@ MY INGREDIENTS
   font-size: 20px;
   text-transform: capitalize;
 
-  margin: 0px;
+  margin: 10px 0px 0px 0px;
   padding: 8px 0px;
 }
 
@@ -564,13 +579,9 @@ MY INGREDIENTS
 }
 
 #search-items--ingredient--add-to-ingredients {
-  width: 180px;
-
-  margin: 20px 0px -5px 0px;
-
-  align-self: end;
-
   display: none;
+  align-self: end;
+  margin: 20px 0px -5px 0px;
 }
 
 /* 
@@ -630,26 +641,6 @@ MEALS
   border: 1px solid black;
 }
 
-.my-meals--tracker {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.my-meals---tracker--table {
-  border: 1px solid white;
-  border-collapse: collapse;
-  margin-top: 5px;
-  width: 80%;
-}
-
-.my-meals--daily-tracker--table-head {
-  font-size: 12px;
-  font-weight: 600;
-  border: 1px solid white;
-  padding: 3px 6px;
-}
-
 .my-meals--daily-tracker--table-body {
   font-size: 12px;
   font-weight: 400;
@@ -664,69 +655,20 @@ MEALS
   cursor: pointer;
 }
 
-.my-meals--daily-tracker--table-body--btn:hover {
-  background: #4c7191;
-}
-
-.table-cell--total {
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
-  border: 1px solid white;
-  padding: 3px 6px;
-}
-
-.my-meals--section--search-ingredient {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.my-meals--section--search-ingredient > button {
-  background: #3e5c76;
-  color: white;
-  font-size: 12px;
-
-  border: 0px;
-  border-radius: 6px;
-  padding: 5px 10px;
-
-  cursor: pointer;
-}
-
-.my-meals--section--search-ingredient > button:hover {
-  background: #4c7191;
-}
-
-.my-meals--section--search-ingredient > input {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 500;
-
-  height: 20px;
-  width: 125px;
-
-  border: 0.5px solid black;
-  border-radius: 6px;
-
-  outline: none;
-}
-
 #my-meals--section--create-meal--add-to-meal {
   display: none;
-  width: 120px;
-  height: 25px;
   align-self: end;
   margin: 10px 0px -5px 0px;
 }
 
-#my-meals--create-meal--table {
-  display: none;
-}
-
 #my-meals--add-to-weekly-meals-btn {
-  width: 140px;
-  height: 25px;
   align-self: end;
   margin: 25px 0px -5px 0px;
+}
+
+.my-meals--daily-tracker--table-body--btn:hover {
+  background: #4c7191;
+}
+#my-meals--create-meal--table {
+  display: none;
 }
