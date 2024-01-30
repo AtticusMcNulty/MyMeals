@@ -6,6 +6,11 @@ function MyIngredients(props) {
 
   // determine whether to add ingredient to MyMeals or remove it from table
   const [ingredientAction, setIngredientAction] = React.useState("default");
+  const [selectedFilter, setSelectedFilter] = React.useState("");
+  const [selectedSort, setSelectedSort] = React.useState("");
+  const [originalIngredients, setOriginalIngredients] = React.useState([
+    ...props.ingredients,
+  ]);
 
   // Modal
   function closeModal() {
@@ -30,7 +35,6 @@ function MyIngredients(props) {
   }
 
   function addIngredient() {
-    console.log(document.getElementById("modal-name"));
     // get name of ingredient to be added
     const name = document.getElementById("modal-name").value.toLowerCase();
 
@@ -135,6 +139,124 @@ function MyIngredients(props) {
     });
   }
 
+  function changeAmount(event, index) {
+    if (event.target.value >= 0) {
+      const updatedIngredients = [...props.ingredients];
+      updatedIngredients[index].Amount = event.target.value;
+      localStorage.setItem("ingredients", JSON.stringify(updatedIngredients));
+      props.setIngredients(updatedIngredients);
+    } else {
+      alert("Amount cannot be less than 0");
+    }
+  }
+
+  function changeFilter(option) {
+    let filterName = option.value;
+    setSelectedFilter(filterName);
+
+    if (filterName != "No Filter") {
+      document
+        .getElementById("myIngredients-filterRange")
+        .classList.add("active");
+      document
+        .getElementById("myIngredients-filterButton")
+        .classList.add("active");
+    } else {
+      document
+        .getElementById("myIngredients-filterRange")
+        .classList.remove("active");
+      document
+        .getElementById("myIngredients-filterButton")
+        .classList.remove("active");
+      filterIngredients(false);
+    }
+  }
+
+  function filterIngredients(filter) {
+    if (selectedFilter != "No Filter" && filter) {
+      let filteredArr = [];
+
+      const min = document.querySelectorAll(".myIngredients-filterInput")[0]
+        .value;
+      const max = document.querySelectorAll(".myIngredients-filterInput")[1]
+        .value;
+
+      // loop through original ingredients list
+      for (let i = 0; i < originalIngredients.length; i++) {
+        const curIngredientVal = Number(originalIngredients[i][selectedFilter]);
+        // if ingredient fits between bounds of filter, append to filtered array
+        if (curIngredientVal >= min && curIngredientVal <= max) {
+          filteredArr.push(originalIngredients[i]);
+        }
+      }
+      props.setIngredients(filteredArr);
+    } else {
+      props.setIngredients(originalIngredients);
+    }
+  }
+
+  function changeSort(option) {
+    const category = option.value;
+    setSelectedSort(category);
+    console.log(1);
+
+    document.getElementById("sort-button-container").style.display = "flex";
+  }
+
+  function sortIngredients(category, order) {
+    let newIngredientArr = [...props.ingredients];
+
+    // insertion sort
+    if (category === "Name" || category === "Category") {
+      // repeat for each ingredient
+      for (let i = 1; i < newIngredientArr.length; i++) {
+        // get category of current ingredient
+        let curCategory = newIngredientArr[i][category];
+        let j = i - 1;
+
+        // while start not reached and current category less than previous categories
+        while (
+          order
+            ? j >= 0 &&
+              curCategory.localeCompare(newIngredientArr[j][category]) == -1
+            : j >= 0 &&
+              curCategory.localeCompare(newIngredientArr[j][category]) == 1
+        ) {
+          // swap elements
+          let temp = newIngredientArr[j + 1];
+          newIngredientArr[j + 1] = newIngredientArr[j];
+          newIngredientArr[j] = temp;
+
+          // get next previous category
+          j = j - 1;
+        }
+      }
+    }
+    // else if sorting by number
+    else {
+      for (let i = 1; i < newIngredientArr.length; i++) {
+        let curCategory = newIngredientArr[i][category];
+        let j = i - 1;
+
+        while (
+          order
+            ? j >= 0 &&
+              Number(curCategory) > Number(newIngredientArr[j][category])
+            : j >= 0 &&
+              Number(curCategory) < Number(newIngredientArr[j][category])
+        ) {
+          let temp = newIngredientArr[j + 1];
+          newIngredientArr[j + 1] = newIngredientArr[j];
+          newIngredientArr[j] = temp;
+
+          j = j - 1;
+        }
+      }
+    }
+
+    props.setIngredients(newIngredientArr);
+  }
+
   const ingredientsAsTable = props.ingredients.map(function (
     ingredient,
     index
@@ -148,6 +270,14 @@ function MyIngredients(props) {
         }}
       >
         <td className="table-cell">{ingredient.Name}</td>
+        <td className="table-cell">
+          <input
+            className="table-counter"
+            type="number"
+            value={ingredient.Amount ? ingredient.Amount : 0}
+            onChange={(event) => changeAmount(event, index)}
+          />
+        </td>
         <td className="table-cell">
           {parseFloat(parseFloat(ingredient.Cost).toFixed(2))}$
         </td>
@@ -180,6 +310,10 @@ function MyIngredients(props) {
         <div className="my-meals--add-meal--info">
           <p>Name:</p>
           <input id="modal-name"></input>
+        </div>
+        <div className="my-meals--add-meal--info">
+          <p>Amount:</p>
+          <input type="number"></input>
         </div>
         <div className="my-meals--add-meal--info">
           <p>Cost:</p>
@@ -239,18 +373,119 @@ function MyIngredients(props) {
             Delete Ingredient
           </button>
         </div>
+        <div className="filter-container">
+          <select
+            className="default-filter"
+            value={selectedFilter}
+            onChange={(event) => {
+              changeFilter(event.target);
+            }}
+          >
+            <option value="" disabled hidden>
+              Filter by...
+            </option>
+            <option value="No Filter">No Filter</option>
+            <option value="Amount">Amount</option>
+            <option value="Cost">Cost</option>
+            <option value="Calories">Calories</option>
+            <option value="Carbs">Carbs</option>
+            <option value="Fats">Fats</option>
+            <option value="Protein">Protein</option>
+            <option value="Sodium">Sodium</option>
+          </select>
+          <div id="myIngredients-filterRange">
+            <input
+              className="myIngredients-filterInput"
+              type="number"
+              placeholder="min"
+              style={{ marginRight: "5px" }}
+            ></input>
+            <input
+              className="myIngredients-filterInput"
+              type="number"
+              placeholder="max"
+            ></input>
+          </div>
+          <button
+            className="default-button"
+            id="myIngredients-filterButton"
+            onClick={() => {
+              filterIngredients(true);
+            }}
+          >
+            Filter
+          </button>
+        </div>
+        <div className="sort-container">
+          <select
+            className="default-filter"
+            value={selectedSort}
+            onChange={(event) => {
+              changeSort(event.target);
+            }}
+          >
+            <option value="" disabled hidden>
+              Sort by...
+            </option>
+            <option>No Sort</option>
+            <option value="Amount">Amount</option>
+            <option value="Cost">Cost</option>
+            <option value="Calories">Calories</option>
+            <option value="Carbs">Carbs</option>
+            <option value="Fats">Fats</option>
+            <option value="Protein">Protein</option>
+            <option value="Sodium">Sodium</option>
+          </select>
+          <div id="sort-button-container">
+            <button
+              className="sort-button"
+              onClick={() => {
+                sortIngredients(selectedSort, true);
+              }}
+            >
+              ⬇️
+            </button>
+            <button
+              className="sort-button"
+              onClick={() => {
+                sortIngredients(selectedSort, false);
+              }}
+            >
+              ⬆️
+            </button>
+          </div>
+        </div>
         <div className="table-container">
           <table className="table">
             <thead>
               <tr>
-                <th className="table-head">Name</th>
-                <th className="table-head">Cost</th>
-                <th className="table-head">Category</th>
-                <th className="table-head">Calories</th>
-                <th className="table-head">Carbs</th>
-                <th className="table-head">Fats</th>
-                <th className="table-head">Protein</th>
-                <th className="table-head">Sodium</th>
+                <th className="table-head">
+                  <span>Name</span>
+                </th>
+                <th className="table-head">
+                  <span>Amount</span>
+                </th>
+                <th className="table-head">
+                  <span>Cost</span>
+                </th>
+                <th className="table-head">
+                  <span>Category</span>
+                </th>
+                <th className="table-head">
+                  <span>Calories</span>
+                </th>
+                <th className="table-head">
+                  <span>Carbs</span>
+                </th>
+                <th className="table-head">
+                  <span>Fats</span>
+                </th>
+                <th className="table-head">
+                  <span>Protein</span>
+                </th>
+                <th className="table-head">
+                  <span>Sodium</span>
+                </th>
               </tr>
             </thead>
             <tbody>{ingredientsAsTable}</tbody>

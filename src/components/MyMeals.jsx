@@ -243,11 +243,20 @@ function MyMeals(props) {
     newMeal["Protein"] = dailyMealTotals[4];
     newMeal["Sodium"] = dailyMealTotals[5];
 
+    let repeatMeal = false;
+
     // store it in weekly meals
     setWeeklyMeals(function (prevWeeklyMeals) {
       let updatedWeeklyMeals;
 
-      if (days[dayIndex] == "Monday") {
+      // check if there would be repeat days, if so start a new week
+      weeklyMeals.forEach((meal) => {
+        if (meal.Weekday == days[dayIndex]) {
+          repeatMeal = true;
+        }
+      });
+
+      if (days[dayIndex] == "Monday" || repeatMeal) {
         updatedWeeklyMeals = [newMeal];
       } else {
         updatedWeeklyMeals = [...prevWeeklyMeals, newMeal];
@@ -261,7 +270,7 @@ function MyMeals(props) {
     setWeeklyMealTotals(function (prevWeeklyMealTotals) {
       let updatedWeeklyMealTotals;
 
-      if (days[dayIndex] == "Monday") {
+      if (days[dayIndex] == "Monday" || repeatMeal) {
         updatedWeeklyMealTotals = [0, 0, 0, 0, 0, 0];
       } else {
         updatedWeeklyMealTotals = [...prevWeeklyMealTotals];
@@ -283,7 +292,30 @@ function MyMeals(props) {
     });
 
     setDailyMeals([]);
+    localStorage.setItem("dailyMeals", []);
     setDailyMealTotals([0, 0, 0, 0, 0, 0]);
+    localStorage.setItem("dailyMealTotals", []);
+  }
+
+  // Change Create Meal Amount
+  function updateCreateMealAmount(event, index, ingredient) {
+    const amount = event.target.value;
+
+    if (amount > Number(ingredient.Amount)) {
+      props.incrementMealIngredient(index);
+    } else {
+      decrementMealIngredient(ingredient, index);
+    }
+  }
+
+  function updateDailyMealAmount(event, index, meal) {
+    const amount = event.target.value;
+
+    if (amount > Number(meal.Amount)) {
+      incrementDailyMeal(index);
+    } else {
+      decrementDailyMeal(meal, index);
+    }
   }
 
   const foundIngredientsTable = props.foundIngredients.map(function (
@@ -293,7 +325,16 @@ function MyMeals(props) {
     return (
       <tr key={index}>
         <td className="table-cell">{ingredient.Name}</td>
-        <td className="table-cell">{ingredient.Amount}</td>
+        <td className="table-cell">
+          <input
+            className="table-counter"
+            type="number"
+            value={ingredient.Amount ? ingredient.Amount : 0}
+            onChange={(event) =>
+              updateCreateMealAmount(event, index, ingredient)
+            }
+          />
+        </td>
         <td className="table-cell">
           {parseFloat(parseFloat(ingredient.Cost).toFixed(2))}$
         </td>
@@ -312,18 +353,6 @@ function MyMeals(props) {
         <td className="table-cell">
           {parseFloat(parseFloat(ingredient.Sodium).toFixed(2))}mg
         </td>
-        <td
-          className="table-cell--btn"
-          onClick={function () {
-            props.incrementMealIngredient(index);
-          }}
-        ></td>
-        <td
-          className="table-cell--btn"
-          onClick={function () {
-            decrementMealIngredient(ingredient, index);
-          }}
-        ></td>
       </tr>
     );
   });
@@ -343,7 +372,16 @@ function MyMeals(props) {
     return (
       <tr key={index}>
         <td className="table-cell">{meal.Name}</td>
-        <td className="table-cell">{parseFloat(meal.Amount)}</td>
+        <td className="table-cell">
+          {
+            <input
+              className="table-counter"
+              type="number"
+              value={meal.Amount ? meal.Amount : 0}
+              onChange={(event) => updateDailyMealAmount(event, index, meal)}
+            />
+          }
+        </td>
         <td className="table-cell">
           {parseFloat(parseFloat(meal.Cost).toFixed(2))}$
         </td>
@@ -362,19 +400,6 @@ function MyMeals(props) {
         <td className="table-cell">
           {parseFloat(parseFloat(meal.Sodium).toFixed(2))}mg
         </td>
-
-        <td
-          className="table-cell--btn"
-          onClick={function () {
-            incrementDailyMeal(index);
-          }}
-        ></td>
-        <td
-          className="table-cell--btn"
-          onClick={function () {
-            decrementDailyMeal(meal, index);
-          }}
-        ></td>
       </tr>
     );
   });
@@ -416,7 +441,7 @@ function MyMeals(props) {
     );
   });
 
-  const weeklyMealTotalsTable = weeklyMealTotals.map(function (total, index) {
+  const weeklyMealAveragesTable = weeklyMealTotals.map(function (total, index) {
     const units = ["$", "kcal", "g", "g", "g", "mg"];
 
     return (
@@ -452,8 +477,6 @@ function MyMeals(props) {
                 <th className="table-head">Fats</th>
                 <th className="table-head">Protein</th>
                 <th className="table-head">Sodium</th>
-                <th className="table-head">+1</th>
-                <th className="table-head">-1</th>
               </tr>
             </thead>
             <tbody>
@@ -489,8 +512,6 @@ function MyMeals(props) {
                 <th className="table-head">Fats</th>
                 <th className="table-head">Protein</th>
                 <th className="table-head">Sodium</th>
-                <th className="table-head">+1</th>
-                <th className="table-head">-1</th>
               </tr>
             </thead>
             <tbody>
@@ -530,8 +551,8 @@ function MyMeals(props) {
             <tbody>
               {weeklyMealsTable}
               <tr>
-                <td className="table-head">Total</td>
-                {weeklyMealTotalsTable}
+                <td className="table-head">Averages</td>
+                {weeklyMealAveragesTable}
               </tr>
             </tbody>
           </table>

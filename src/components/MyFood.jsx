@@ -27,7 +27,9 @@ function MyFood() {
       // get name of current ingredient
       let curIngredient = ingredients[i].Name;
 
-      if (curIngredient === ingredient) ingredientExists = true;
+      // if current ingreident includes desired ingredient, desired ingredient exists
+      if (curIngredient.toLowerCase().includes(ingredient.toLowerCase()))
+        ingredientExists = true;
 
       // if ingredient matches current ingredient
       if (ingredientExists) {
@@ -104,21 +106,24 @@ function MyFood() {
     setFoundIngredients(function (prevIngredients) {
       const updatedIngredients = [...prevIngredients];
 
+      console.log(index, updatedIngredients);
+
       Object.keys(updatedIngredients[index]).forEach(function (key) {
         if (key != "Name" && key != "Amount") {
           updatedIngredients[index][`${key}`] =
             Number(updatedIngredients[index][`${key}`]) +
             Number(updatedIngredients[index][`${key}`]) /
-              updatedIngredients[index].Amount;
+              Number(updatedIngredients[index].Amount);
 
           updatedAmounts.push(
             Number(updatedIngredients[index][`${key}`]) /
-              (updatedIngredients[index].Amount + 1)
+              (Number(updatedIngredients[index].Amount) + 1)
           );
         }
       });
 
-      updatedIngredients[index].Amount = updatedIngredients[index].Amount + 1;
+      updatedIngredients[index].Amount =
+        Number(updatedIngredients[index].Amount) + 1;
       return updatedIngredients;
     });
 
