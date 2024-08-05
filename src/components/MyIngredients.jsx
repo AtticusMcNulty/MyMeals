@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 function MyIngredients(props) {
   // localStorage.removeItem("dailyMealTotals");
@@ -7,31 +9,22 @@ function MyIngredients(props) {
   // determine whether to add ingredient to MyMeals or remove it from table
   const [ingredientAction, setIngredientAction] = React.useState("default");
   const [selectedFilter, setSelectedFilter] = React.useState("");
-  const [selectedSort, setSelectedSort] = React.useState("");
+  const [selectedSort, setSelectedSort] = React.useState("Sort By...");
   const [originalIngredients, setOriginalIngredients] = React.useState([
     ...props.ingredients,
   ]);
+  const [showModal, setShowModal] = React.useState(false);
 
   // Modal
   function closeModal() {
-    // close create ingredient modal; unblur background; allow scrolling; add new ingredient btn; remove add-ingredient btn
-    document
-      .getElementById("create-ingredient--modal")
-      .classList.remove("active");
-    document.getElementById("overlay").style.display = "none";
+    setShowModal(false);
     document.body.style.overflow = "scroll";
-    document.getElementById("my-meals--add-meal--btn-add").style.display =
-      "none";
   }
 
   // Create Ingredient
   function createIngredient() {
-    // open create ingredient modal; blur background; prevent scrolling; remove new ingredient btn; add "add-ingredient btn"
-    document.getElementById("create-ingredient--modal").classList.add("active");
-    document.getElementById("overlay").style.display = "block";
+    setShowModal(true);
     document.body.style.overflow = "hidden";
-    document.getElementById("my-meals--add-meal--btn-add").style.display =
-      "block";
   }
 
   function addIngredient() {
@@ -54,8 +47,9 @@ function MyIngredients(props) {
       document
         .querySelectorAll(".my-meals--add-meal--info")
         .forEach(function (component) {
+          console.log(component);
           // add meal to newMeal
-          newIngredient[component.firstChild.textContent.replace(":", "")] =
+          newIngredient[component.firstChild.textContent] =
             component.lastChild.value;
         });
 
@@ -97,6 +91,9 @@ function MyIngredients(props) {
       const updatedIngredients = [...prevIngredients];
       updatedIngredients.splice(index, 1);
       localStorage.setItem("ingredients", JSON.stringify(updatedIngredients));
+
+      setOriginalIngredients(updatedIngredients);
+
       return updatedIngredients;
     });
   }
@@ -193,14 +190,6 @@ function MyIngredients(props) {
     } else {
       props.setIngredients(originalIngredients);
     }
-  }
-
-  function changeSort(option) {
-    const category = option.value;
-    setSelectedSort(category);
-    console.log(1);
-
-    document.getElementById("sort-button-container").style.display = "flex";
   }
 
   function sortIngredients(category, order) {
@@ -303,193 +292,182 @@ function MyIngredients(props) {
 
   return (
     <div className="component" id="my-ingredients">
-      <div className="modal" id="create-ingredient--modal">
-        <span className="close" onClick={closeModal}>
-          &times;
-        </span>
-        <div className="my-meals--add-meal--info">
-          <p>Name:</p>
-          <input id="modal-name"></input>
-        </div>
-        <div className="my-meals--add-meal--info">
-          <p>Amount:</p>
-          <input type="number"></input>
-        </div>
-        <div className="my-meals--add-meal--info">
-          <p>Cost:</p>
-          <input type="number"></input>
-        </div>
-        <div className="my-meals--add-meal--info">
-          <p>Category:</p>
-          <input></input>
-        </div>
-        <div className="my-meals--add-meal--info">
-          <p>Calories:</p>
-          <input type="number"></input>
-        </div>
-        <div className="my-meals--add-meal--info">
-          <p>Carbs:</p>
-          <input type="number"></input>
-        </div>
-        <div className="my-meals--add-meal--info">
-          <p>Fat:</p>
-          <input type="number"></input>
-        </div>
-        <div className="my-meals--add-meal--info">
-          <p>Protein:</p>
-          <input type="number"></input>
-        </div>
-        <div className="my-meals--add-meal--info">
-          <p>Sodium:</p>
-          <input type="number"></input>
-        </div>
-        <button
-          className="modal-button"
-          id="my-meals--add-meal--btn-add"
-          onClick={addIngredient}
-        >
-          Add Ingredient
-        </button>
-      </div>
-      <div className="transparent-section">
+      {showModal ? <div id="overlay"></div> : null}
+      {showModal ? (
+        <form className="modal" onSubmit={() => addIngredient()}>
+          <span className="close" onClick={closeModal}>
+            &times;
+          </span>
+          <div className="my-meals--add-meal--info">
+            <div>Name</div>
+            <input id="modal-name" type="text" required></input>
+          </div>
+          <div className="my-meals--add-meal--info">
+            <div>Amount</div>
+            <input type="number" required></input>
+          </div>
+          <div className="my-meals--add-meal--info">
+            <div>Cost</div>
+            <input type="number" step="0.01" required></input>
+          </div>
+          <div className="my-meals--add-meal--info">
+            <div>Category</div>
+            <input required></input>
+          </div>
+          <div className="my-meals--add-meal--info">
+            <div>Calories</div>
+            <input type="number" required></input>
+          </div>
+          <div className="my-meals--add-meal--info">
+            <div>Carbs</div>
+            <input type="number" step="0.1" required></input>
+          </div>
+          <div className="my-meals--add-meal--info">
+            <div>Fat</div>
+            <input type="number" step="0.1" required></input>
+          </div>
+          <div className="my-meals--add-meal--info">
+            <div>Protein</div>
+            <input type="number" step="0.1" required></input>
+          </div>
+          <div className="my-meals--add-meal--info">
+            <div>Sodium</div>
+            <input type="number" required></input>
+          </div>
+          <button
+            className="default-button"
+            id="my-meals--add-meal--btn-add"
+            style={{ backgroundColor: "#f77064", marginTop: "10px" }}
+            type="submit"
+          >
+            Add Ingredient
+          </button>
+        </form>
+      ) : null}
+      <div className="default-section">
         <div className="button-row">
-          <button className="default-button" onClick={createIngredient}>
+          <button className="default-button" onClick={() => createIngredient()}>
             Create Ingredient
           </button>
           <button
             className="default-button"
-            onClick={function () {
-              updateAction("add");
-            }}
+            onClick={() => updateAction("add")}
           >
             Add to MyMeals
           </button>
           <button
             className="default-button"
-            onClick={function () {
-              updateAction("delete");
-            }}
+            onClick={() => updateAction("delete")}
           >
             Delete Ingredient
           </button>
         </div>
-        <div className="filter-container">
-          <select
-            className="default-filter"
-            value={selectedFilter}
-            onChange={(event) => {
-              changeFilter(event.target);
-            }}
-          >
-            <option value="" disabled hidden>
-              Filter by...
-            </option>
-            <option value="No Filter">No Filter</option>
-            <option value="Amount">Amount</option>
-            <option value="Cost">Cost</option>
-            <option value="Calories">Calories</option>
-            <option value="Carbs">Carbs</option>
-            <option value="Fats">Fats</option>
-            <option value="Protein">Protein</option>
-            <option value="Sodium">Sodium</option>
-          </select>
-          <div id="myIngredients-filterRange">
-            <input
-              className="myIngredients-filterInput"
-              type="number"
-              placeholder="min"
-              style={{ marginRight: "5px" }}
-            ></input>
-            <input
-              className="myIngredients-filterInput"
-              type="number"
-              placeholder="max"
-            ></input>
+        <div className="default-section--content">
+          <div className="default-section--item">
+            <h3 className="section--header">Ingredients</h3>
+            <div className="table--modifiers">
+              <div className="filter-container">
+                <select
+                  className="default-filter"
+                  value={selectedFilter}
+                  onChange={(event) => {
+                    changeFilter(event.target);
+                  }}
+                >
+                  <option value="" disabled hidden>
+                    Filter by...
+                  </option>
+                  <option value="No Filter">No Filter</option>
+                  <option value="Amount">Amount</option>
+                  <option value="Cost">Cost</option>
+                  <option value="Calories">Calories</option>
+                  <option value="Carbs">Carbs</option>
+                  <option value="Fats">Fats</option>
+                  <option value="Protein">Protein</option>
+                  <option value="Sodium">Sodium</option>
+                </select>
+                <div id="myIngredients-filterRange">
+                  <input
+                    className="myIngredients-filterInput"
+                    type="number"
+                    placeholder="min"
+                    style={{ marginRight: "5px" }}
+                  ></input>
+                  <input
+                    className="myIngredients-filterInput"
+                    type="number"
+                    placeholder="max"
+                  ></input>
+                </div>
+                <button
+                  className="default-button"
+                  id="myIngredients-filterButton"
+                  onClick={() => {
+                    filterIngredients(true);
+                  }}
+                >
+                  Filter
+                </button>
+              </div>
+              <div className="sort-container">
+                <select
+                  className="default-filter"
+                  value={selectedSort}
+                  onChange={(event) => setSelectedSort(event.target.value)}
+                >
+                  <option value="Sort By..." disabled hidden>
+                    Sort by...
+                  </option>
+                  <option>No Sort</option>
+                  <option value="Amount">Amount</option>
+                  <option value="Cost">Cost</option>
+                  <option value="Calories">Calories</option>
+                  <option value="Carbs">Carbs</option>
+                  <option value="Fats">Fats</option>
+                  <option value="Protein">Protein</option>
+                  <option value="Sodium">Sodium</option>
+                </select>
+                {selectedSort !== "No Sort" && selectedSort !== "Sort By..." ? (
+                  <div id="sort-button-container">
+                    <button
+                      className="sort-button"
+                      onClick={() => {
+                        sortIngredients(selectedSort, true);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faArrowDown}></FontAwesomeIcon>
+                    </button>
+                    <button
+                      className="sort-button"
+                      onClick={() => {
+                        sortIngredients(selectedSort, false);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faArrowUp}></FontAwesomeIcon>
+                    </button>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+            <div className="table-container" style={{ marginTop: "15px" }}>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th className="table-head">Name</th>
+                    <th className="table-head">Amount</th>
+                    <th className="table-head">Cost</th>
+                    <th className="table-head">Category</th>
+                    <th className="table-head">Calories</th>
+                    <th className="table-head">Carbs</th>
+                    <th className="table-head">Fats</th>
+                    <th className="table-head">Protein</th>
+                    <th className="table-head">Sodium</th>
+                  </tr>
+                </thead>
+                <tbody>{ingredientsAsTable}</tbody>
+              </table>
+            </div>
           </div>
-          <button
-            className="default-button"
-            id="myIngredients-filterButton"
-            onClick={() => {
-              filterIngredients(true);
-            }}
-          >
-            Filter
-          </button>
-        </div>
-        <div className="sort-container">
-          <select
-            className="default-filter"
-            value={selectedSort}
-            onChange={(event) => {
-              changeSort(event.target);
-            }}
-          >
-            <option value="" disabled hidden>
-              Sort by...
-            </option>
-            <option>No Sort</option>
-            <option value="Amount">Amount</option>
-            <option value="Cost">Cost</option>
-            <option value="Calories">Calories</option>
-            <option value="Carbs">Carbs</option>
-            <option value="Fats">Fats</option>
-            <option value="Protein">Protein</option>
-            <option value="Sodium">Sodium</option>
-          </select>
-          <div id="sort-button-container">
-            <button
-              className="sort-button"
-              onClick={() => {
-                sortIngredients(selectedSort, true);
-              }}
-            >
-              ⬇️
-            </button>
-            <button
-              className="sort-button"
-              onClick={() => {
-                sortIngredients(selectedSort, false);
-              }}
-            >
-              ⬆️
-            </button>
-          </div>
-        </div>
-        <div className="table-container">
-          <table className="table">
-            <thead>
-              <tr>
-                <th className="table-head">
-                  <span>Name</span>
-                </th>
-                <th className="table-head">
-                  <span>Amount</span>
-                </th>
-                <th className="table-head">
-                  <span>Cost</span>
-                </th>
-                <th className="table-head">
-                  <span>Category</span>
-                </th>
-                <th className="table-head">
-                  <span>Calories</span>
-                </th>
-                <th className="table-head">
-                  <span>Carbs</span>
-                </th>
-                <th className="table-head">
-                  <span>Fats</span>
-                </th>
-                <th className="table-head">
-                  <span>Protein</span>
-                </th>
-                <th className="table-head">
-                  <span>Sodium</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>{ingredientsAsTable}</tbody>
-          </table>
         </div>
       </div>
     </div>

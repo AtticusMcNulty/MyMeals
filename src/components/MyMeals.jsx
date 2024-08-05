@@ -455,107 +455,126 @@ function MyMeals(props) {
   return (
     <div className="component" id="my-meals">
       <div className="default-section">
-        <h3 className="section--header">Create Meal</h3>
-        <div className="search-bar">
-          <input
-            className="default-input"
-            id="my-meals--section--search-ingredient--input"
-          ></input>
-          <button className="default-button" onClick={props.searchIngredient}>
-            Search Ing.
-          </button>
-        </div>
-        <div className="table-container">
-          <table className="table" id="my-meals--create-meal--table">
-            <thead>
-              <tr>
-                <th className="table-head">Name</th>
-                <th className="table-head">Amount</th>
-                <th className="table-head">Cost</th>
-                <th className="table-head">Calories</th>
-                <th className="table-head">Carbs</th>
-                <th className="table-head">Fats</th>
-                <th className="table-head">Protein</th>
-                <th className="table-head">Sodium</th>
-              </tr>
-            </thead>
-            <tbody>
-              {foundIngredientsTable}
-              <tr>
-                <td className="table-head" colSpan={2}>
-                  Total
-                </td>
-                {foundIngredientTotalsTable}
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <button
-          className="default-button"
-          id="my-meals--section--create-meal--add-to-meal"
-          onClick={addMealToDailyMeals}
-        >
-          Add to Daily Meals
-        </button>
-      </div>
-      <div className="default-section">
-        <h3 className="section--header">Daily Tracker</h3>
-        <div className="table-container">
-          <table className="table">
-            <thead>
-              <tr>
-                <th className="table-head">Name</th>
-                <th className="table-head">Amount</th>
-                <th className="table-head">Cost</th>
-                <th className="table-head">Calories</th>
-                <th className="table-head">Carbs</th>
-                <th className="table-head">Fats</th>
-                <th className="table-head">Protein</th>
-                <th className="table-head">Sodium</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dailyMealsTable}
-              <tr>
-                <td className="table-head" colSpan={2}>
-                  Total
-                </td>
-                {dailyMealTotalsTable}
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <button
-          className="default-button"
-          id="my-meals--add-to-weekly-meals-btn"
-          onClick={addWeeklyMeal}
-        >
-          Add to Weekly Meals
-        </button>
-      </div>
-      <div className="default-section">
-        <h3 className="section--header">Weekly Tracker</h3>
-        <div className="table-container">
-          <table className="table">
-            <thead>
-              <tr>
-                <th className="table-head">Weekday</th>
-                <th className="table-head">Cost</th>
-                <th className="table-head">Calories</th>
-                <th className="table-head">Carbs</th>
-                <th className="table-head">Fats</th>
-                <th className="table-head">Protein</th>
-                <th className="table-head">Sodium</th>
-              </tr>
-            </thead>
-            <tbody>
-              {weeklyMealsTable}
-              <tr>
-                <td className="table-head">Averages</td>
-                {weeklyMealAveragesTable}
-              </tr>
-            </tbody>
-          </table>
+        <div className="default-section--content">
+          <div className="default-section--item">
+            <h3 className="section--header">Create Meal</h3>
+            <div className="search-bar">
+              <input
+                className="default-input"
+                id="my-meals--section--search-ingredient--input"
+              ></input>
+              <button
+                className="default-button"
+                onClick={props.searchIngredient}
+              >
+                Search Ing.
+              </button>
+            </div>
+            {foundIngredientsTable.length > 0 ? (
+              <>
+                <div className="table-container">
+                  <table className="table" id="my-meals--create-meal--table">
+                    <thead>
+                      <tr>
+                        <th className="table-head">Name</th>
+                        <th className="table-head">Amount</th>
+                        <th className="table-head">Cost</th>
+                        <th className="table-head">Calories</th>
+                        <th className="table-head">Carbs</th>
+                        <th className="table-head">Fats</th>
+                        <th className="table-head">Protein</th>
+                        <th className="table-head">Sodium</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {foundIngredientsTable}
+                      <tr>
+                        <td className="table-head" colSpan={2}>
+                          Total
+                        </td>
+                        {foundIngredientTotalsTable}
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <button
+                  className="default-button"
+                  id="my-meals--section--create-meal--add-to-meal"
+                  onClick={addMealToDailyMeals}
+                >
+                  Add to Daily Meals
+                </button>
+              </>
+            ) : null}
+          </div>
+
+          <div className="default-section--item">
+            <h3 className="section--header">Daily Tracker</h3>
+            {dailyMealsTable.length > 0 ? (
+              <>
+                <div className="table-container">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th className="table-head">Name</th>
+                        <th className="table-head">Amount</th>
+                        <th className="table-head">Cost</th>
+                        <th className="table-head">Calories</th>
+                        <th className="table-head">Carbs</th>
+                        <th className="table-head">Fats</th>
+                        <th className="table-head">Protein</th>
+                        <th className="table-head">Sodium</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dailyMealsTable}
+                      <tr>
+                        <td className="table-head" colSpan={2}>
+                          Total
+                        </td>
+                        {dailyMealTotalsTable}
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <button
+                  className="default-button"
+                  id="my-meals--add-to-weekly-meals-btn"
+                  onClick={addWeeklyMeal}
+                >
+                  Add to Weekly Meals
+                </button>
+              </>
+            ) : null}
+          </div>
+
+          <div className="default-section--item">
+            <h3 className="section--header">Weekly Tracker</h3>
+            {weeklyMealsTable.length > 0 ? (
+              <div className="table-container">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th className="table-head">Weekday</th>
+                      <th className="table-head">Cost</th>
+                      <th className="table-head">Calories</th>
+                      <th className="table-head">Carbs</th>
+                      <th className="table-head">Fats</th>
+                      <th className="table-head">Protein</th>
+                      <th className="table-head">Sodium</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {weeklyMealsTable}
+                    <tr>
+                      <td className="table-head">Averages</td>
+                      {weeklyMealAveragesTable}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>

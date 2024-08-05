@@ -20,7 +20,6 @@ function App() {
 
   return (
     <div>
-      <div id="overlay"></div>
       <Navbar key={navKey} tab={tab} />
       <Fridge handleFridgeToRecipes={handleFridgeToRecipes} />
       <SearchItems

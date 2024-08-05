@@ -1,15 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
 
 body {
-  background-color: #f6f6f9;
-  margin: 0px;
-  padding: 0px;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
   font-family: "Poppins", sans-serif;
   font-weight: 500;
+  color: #2d3748;
 }
 
 #root > div {
-  padding: 0px 50px;
+  width: 100%;
 }
 
 .component {
@@ -24,10 +25,6 @@ body {
   display: block;
 }
 
-.fridge {
-  display: block;
-}
-
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   cursor: pointer;
@@ -38,8 +35,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .navbar {
   background-color: white;
   padding: 30px 0px;
-  width: 100vw;
-  margin-left: -50px;
+  width: 100%;
   box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
 }
 
@@ -76,18 +72,45 @@ GENERAL
 .default-section {
   display: flex;
   flex-direction: column;
+  align-items: center;
 
-  background: white;
-  color: #363949;
-  text-align: center;
-
-  width: auto;
-  max-width: 800px;
-
-  border-radius: 6px;
-  padding: 25px;
-  margin: 20px auto;
+  background-color: #e1e1e1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  min-height: 82vh;
 }
+
+.default-section--content {
+  display: flex;
+  flex-direction: column;
+
+  background-color: #a0c4ff;
+
+  border-radius: 10px;
+  padding: 20px;
+
+  width: 90%;
+  max-width: 750px;
+}
+
+.default-section--item {
+  flex: 1;
+  background: white;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 10px;
+
+  transition: transform 0.2s ease;
+}
+
+/*
+.default-section--item:hover {
+  transform: scale(1.005);
+}
+*/
 
 .transparent-section {
   display: flex;
@@ -100,10 +123,11 @@ GENERAL
 }
 
 .section--header {
-  color: #363949;
-  text-align: center;
-
-  margin: 0px 0px 10px 0px;
+  font-size: 1.5em;
+  color: #2d3748;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 10px;
 }
 
 .section--list {
@@ -119,30 +143,27 @@ GENERAL
   background: white;
   color: #21222b;
 
-  width: 100px;
+  width: 105px;
 
-  border-radius: 4px;
+  border-radius: 5px;
   padding: 3px 10px;
+
+  outline: none;
 }
 
 .default-input {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
-
-  width: 150px;
-  height: 12px;
-
-  border-radius: 6px;
-  padding: 8px 5px;
-
+  width: 200px;
+  padding: 10px 15px;
+  border: 2px solid #ced4da;
+  border-radius: 8px;
   outline: none;
-  border: 0px;
-  box-shadow: 0 0 5px rgba(73, 75, 98, 0.25);
+  transition: border-color 0.2s ease;
 }
 
-.button-row {
-  display: flex;
-  justify-content: space-around;
+.default-input:focus {
+  border-color: #495057;
 }
 
 .search-bar {
@@ -156,122 +177,126 @@ GENERAL
 
 .default-button {
   font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-size: 13px;
-  background: white;
-  color: #363949;
+  font-size: 15px;
+  font-weight: 600;
+  background: #495057;
+  color: #ffffff;
 
-  border: 0px;
-  box-shadow: 0 0 4px rgba(73, 75, 98, 0.25);
-  border-radius: 6px;
-  padding: 5px 10px;
-
+  border-radius: 8px;
+  border: none;
+  padding: 7px 14px;
   cursor: pointer;
 
-  transition: background 0.2s ease;
-  transition: transform 0.2s ease-in-out;
+  transition: background 0.3s;
 }
 
 .default-button:hover {
-  transform: scale(1.02);
+  background: #343a40;
 }
 
 .default-button--char {
-  font-family: "Poppins", sans-serif;
+  background-color: #e2e8f0;
+  color: #2d3748;
+  font-size: 12px;
   font-weight: 500;
 
-  background: white;
-  color: #363949;
+  border-radius: 8px;
+  border: none;
 
-  border: 1px solid #000;
-  box-shadow: 0 0 1px rgba(73, 75, 98, 0.18);
-  border-radius: 6px;
-
-  width: 30px;
   height: 30px;
+  width: 30px;
 
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 .default-button--char:hover {
-  background: #f0f0f0;
-}
-
-.modal-button {
-  display: none;
-  align-self: end;
-
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  background: white;
-  color: #363949;
-
-  border: 0px;
-  box-shadow: 0 0 5px rgba(123, 129, 184, 0.18);
-  border-radius: 6px;
-  padding: 5px 10px;
-  margin: 5px;
-
-  cursor: pointer;
-
-  transition: background 0.2s ease;
-  transition: transform 0.2s ease-in-out;
-}
-
-.modal-button:hover {
-  transform: scale(1.02);
+  background-color: #cbd5e0;
 }
 
 .table-container {
-  overflow-x: auto !important;
+  box-sizing: border-box;
+
+  border-radius: 7px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  padding: 15px 20px;
+
+  width: 100%;
+  overflow-x: scroll;
 }
 
 .table {
-  background-color: white;
-  color: #363949;
-
-  border: 1px solid #363949;
-  border-radius: 5px;
-  border-collapse: collapse;
-  margin-top: 20px;
   width: 100%;
-}
-
-.table tr:nth-child(odd) {
-  background-color: rgb(232, 232, 232);
-}
-
-tr.clickable {
-  cursor: pointer;
-}
-
-tr.clickable:hover {
-  opacity: 0.7;
+  border-collapse: separate;
+  border-spacing: 0 10px;
 }
 
 .table-head {
-  position: relative;
-
-  background-color: white;
-  border: 1px solid black;
-  font-size: 12px;
+  text-align: left;
+  background-color: #444;
+  font-size: 15px;
   font-weight: 600;
 
-  padding: 3px 6px;
+  color: white;
+
+  padding: 10px;
+}
+
+.table-head:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.table-head:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .table-cell {
-  font-size: 12px;
-  text-align: center;
+  background-color: white;
+  font-size: 14px;
   font-weight: 400;
-  text-transform: capitalize;
+  color: #333;
 
-  padding: 3px 6px;
+  padding: 10px;
+  border-bottom: 2px solid #e1e1e1;
+}
+
+.table-cell:first-child {
+  border-left: 2px solid #e1e1e1;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.table-cell:last-child {
+  border-right: 2px solid #e1e1e1;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.loading {
+  color: #666;
+}
+
+.table-row.clickable {
+  cursor: pointer;
+}
+
+.table-row.clickable:hover {
+  opacity: 0.6;
+}
+
+.table-row.clickable > .table-cell {
+  color: #eb6356;
+}
+
+.table-row.clickable > .table-cell > input {
+  color: #eb6356;
 }
 
 .table-counter {
   font-family: "Poppins", sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
 
   background: transparent;
@@ -297,8 +322,6 @@ tr.clickable:hover {
 }
 
 #overlay {
-  display: none;
-
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(5px);
 
@@ -312,8 +335,12 @@ tr.clickable:hover {
 
 /* MODAL */
 .modal {
-  display: none;
-  background: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  background: white;
   color: #363949;
 
   position: fixed;
@@ -322,17 +349,11 @@ tr.clickable:hover {
   transform: translate(-50%, -50%);
   z-index: 1;
 
-  width: 90vw;
-  max-width: 500px;
+  width: 90%;
+  max-width: 475px;
   padding: 10px;
 
   border-radius: 8px;
-}
-
-.modal.active {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .close {
@@ -347,33 +368,11 @@ tr.clickable:hover {
 FRIDGE INVENTORY 
 **
 */
-.fridge--storage {
-  display: flex;
-  gap: 30px;
-}
-
-.fridge-section {
-  display: flex;
-  flex-direction: column;
-
-  background: white;
-  box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
-  flex-grow: 1;
-
-  padding: 25px;
-  margin: 0px;
-  border: 0px;
-  border-radius: 6px;
-}
-
-@media (max-width: 875px) {
-  .fridge--storage {
-    flex-direction: column;
-  }
-
-  .fridge--storage--component {
-    width: auto;
-  }
+.section--header {
+  color: #343a40;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .fridge--storage--list-item {
@@ -381,81 +380,77 @@ FRIDGE INVENTORY
   justify-content: space-between;
   align-items: center;
 
-  margin-top: 10px;
-  text-transform: capitalize;
+  padding: 10px 0;
+  border-bottom: 1px solid #ececec;
 }
 
 .fridge--storage--list-item--header {
-  width: 150px;
+  flex: 0.5;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: #495057;
+  text-transform: capitalize;
 }
 
 .fridge--storage--list-item--amount {
   display: flex;
-  justify-content: center;
-  width: 300px;
+  align-items: center;
+  gap: 5px;
 }
 
-.fridge--storage--list-item--add-to-cart {
-  font-size: 14px;
-
-  background: white;
-  color: #363949;
-  box-shadow: 0 0 1px rgba(73, 75, 98, 0.18);
-
-  padding: 3px 12px;
-  border-radius: 5px;
-
-  cursor: pointer;
-}
-
-#fridge--storage--add-to-recipes {
-  width: 170px;
-
-  margin: 20px 0px -5px 0px;
-
-  align-self: end;
-}
-
-.full {
+.fridge--storage--list-item--modify {
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  color: white;
-  background-color: rgb(1, 121, 1);
-
-  width: 100px;
-
-  margin: 0px 10px;
-  border-radius: 5px;
+  gap: 5px;
 }
 
-.half-full {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: white;
-  background-color: rgb(30, 200, 30);
-
-  width: 100px;
-
-  margin: 0px 10px;
-  border-radius: 5px;
-}
-
+.full,
+.half-full,
 .quarter-full {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  color: white;
-  background-color: rgb(229, 183, 33);
-
-  width: 100px;
-
-  margin: 0px 10px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
   border-radius: 5px;
+  padding: 5px 10px;
+  min-width: 80px;
+  color: #fff;
+}
+
+.full {
+  background-color: #2a9d8f;
+}
+
+.half-full {
+  background-color: #e9c46a;
+}
+
+.quarter-full {
+  background-color: #f4a261;
+}
+
+#fridge--storage--add-to-recipes {
+  align-self: flex-end;
+  margin-top: 20px;
+  background-color: #f77064;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#fridge--storage--add-to-recipes:hover {
+  background-color: #ff4a45;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
 }
 
 /* 
@@ -468,20 +463,24 @@ SHOPPING CART
   justify-content: space-between;
   align-items: center;
 
-  color: #363949;
-  text-transform: capitalize;
+  padding: 10px 0;
+  border-bottom: 1px solid #ececec;
 
-  margin: 10px 0px 0px 0px;
+  list-style-type: none;
 }
 
 .shopping-cart--item--name {
-  width: 150px;
-  margin: 0px;
-  text-align: left;
+  flex: 0.5;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: #495057;
+  text-transform: capitalize;
 }
 
 .shopping-cart--item--quantity {
-  width: 300px;
+  font-size: 1em;
+  color: #4a5568;
+  margin-right: 20px;
 }
 
 /* 
@@ -489,9 +488,6 @@ SHOPPING CART
 SEARCH ITEMS
 **
 */
-#ingredient-table {
-  margin-top: 5px;
-}
 
 .search-items--recipe-search {
   display: flex;
@@ -499,7 +495,7 @@ SEARCH ITEMS
 }
 
 .search-items--recipe-search--ingredients--header {
-  margin: 0px;
+  margin: 0px 0px 12px 0px;
   text-transform: capitalize;
 }
 
@@ -550,50 +546,115 @@ SEARCH ITEMS
 MY INGREDIENTS
 **
 */
+.button-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.table--modifiers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-container,
+.sort-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 #ingredient-data {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 20px;
 
-  list-style-type: none;
-
-  border-radius: 5px;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 20px 15px;
 }
 
 .ingredient-data--name {
+  font-size: 24px;
   font-weight: 600;
-  font-size: 20px;
-  text-transform: capitalize;
+  color: #333;
 
-  margin: 10px 0px 0px 0px;
-  padding: 8px 0px;
+  text-transform: capitalize;
 }
 
-.ingredient-data--li {
-  margin: 0px;
-  padding: 8px 0px;
-  font-size: 14.5px;
-  font-weight: 400;
+.ingredient-data--header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  text-transform: capitalize;
+  border-radius: 7px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+
+  width: 100%;
 }
 
 .ingredient-data--img {
-  width: 150px;
-
-  border-radius: 5px;
-  margin: 0px 0px 5px 0px;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 20px;
 }
 
-.filter-container {
+.ingredient-data--info {
   display: flex;
-  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  border-radius: 7px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+
+  padding: 20px;
+}
+
+.ingredient-data--item {
+  background: rgb(68, 68, 68);
+
+  border-radius: 12px;
+  padding: 10px;
+
+  min-width: 120px;
+
+  text-align: center;
+}
+
+.item-label {
+  font-size: 15px;
+  color: white;
+  font-weight: 600;
+}
+
+.item-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: #f77064;
+  text-transform: capitalize;
+}
+
+.ingredient-data--content {
+  padding: 10px;
+}
+
+.ingredient-data--li {
+  display: flex;
   justify-content: space-between;
-  margin-top: 15px;
-  width: 300px;
+
+  font-size: 17px;
+  color: #555;
+
+  border-bottom: 1px solid #e0e0e0;
+  padding: 8px 10px;
+}
+
+.ingredient-data--li:last-child {
+  border-bottom: none;
 }
 
 #myIngredients-filterRange {
@@ -622,24 +683,19 @@ MY INGREDIENTS
 
 #myIngredients-filterButton {
   display: none;
+  background-color: rgb(247, 112, 100);
+}
+
+#myIngredients-filterButton:hover {
+  background-color: #ff4a45;
 }
 
 #myIngredients-filterButton.active {
   display: block;
 }
 
-.sort-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  width: 190px;
-
-  margin: 15px 0px -5px 0px;
-}
-
 #sort-button-container {
-  display: none;
+  display: flex;
   gap: 10px;
 }
 
@@ -690,9 +746,19 @@ MY INGREDIENTS
 }
 
 #search-items--ingredient--add-to-ingredients {
-  display: none;
-  align-self: end;
-  margin: 20px 0px -5px 0px;
+  align-self: flex-end;
+  background-color: #f77064;
+  color: white;
+
+  border-radius: 8px;
+  padding: 10px 20px;
+
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#search-items--ingredient--add-to-ingredients:hover {
+  background-color: #ff4a45;
 }
 
 /* 
@@ -718,27 +784,35 @@ MEALS
 .my-meals--add-meal--info {
   display: flex;
   align-items: center;
-  width: 250px;
+  justify-content: space-between;
+
+  width: 300px;
 }
 
 .my-meals--add-meal--info > p {
-  text-align: center;
   width: 125px;
   font-size: 15px;
-  margin: 12px 0px;
 }
 
 .my-meals--add-meal--info > input {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 500;
 
-  height: 16px;
-  width: 125px;
-
-  border-radius: 6px;
+  width: 150px;
+  padding: 5px 10px;
+  border: 2px solid #ced4da;
+  border-radius: 8px;
 
   outline: none;
-  border: 0.5px solid black;
+  transition: border-color 0.2s ease;
+}
+
+.my-meals--add-meal--info > input:focus {
+  border-color: #495057;
+}
+
+#my-meals--add-meal--btn-add:hover {
+  background-color: #ff4a45;
 }
 
 #my-meals--remove-meal > input {

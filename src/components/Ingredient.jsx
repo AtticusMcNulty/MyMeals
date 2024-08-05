@@ -1,5 +1,4 @@
 import React from "react";
-
 const apiKey = "e0fb50c6657a4444bebe78ba67ad286f";
 
 function Ingredient(props) {
@@ -57,33 +56,97 @@ function Ingredient(props) {
   return (
     <div>
       {ingredientData ? (
-        <ul id="ingredient-data">
-          <li className="ingredient-data--name">{`${ingredientData.name}`}</li>
-          <img
-            className="ingredient-data--img"
-            src={`https://spoonacular.com/cdn/ingredients_100x100/${ingredientData.image}`}
-          ></img>
-          <li className="ingredient-data--li">{`Estimated Cost: ${(
-            ingredientData.estimatedCost.value / 100
-          ).toFixed(2)}$`}</li>
-          <li className="ingredient-data--li">{`Weight: ${ingredientData.nutrition.weightPerServing.amount}${ingredientData.nutrition.weightPerServing.unit}`}</li>
-          <li className="ingredient-data--li">{`Category: ${ingredientData.categoryPath[0]}`}</li>
-          <li className="ingredient-data--li">{`Consistency: ${ingredientData.consistency}`}</li>
-          <li className="ingredient-data--li">{`Aisle: ${ingredientData.aisle}`}</li>
-          <li className="ingredient-data--li">{`Carbs: ${ingredientData.nutrition.caloricBreakdown.percentCarbs}%`}</li>
-          <li className="ingredient-data--li">{`Fat: ${ingredientData.nutrition.caloricBreakdown.percentFat}%`}</li>
-          <li className="ingredient-data--li">{`Protein: ${ingredientData.nutrition.caloricBreakdown.percentProtein}%`}</li>
-          <table className="table" id="ingredient-table">
-            <thead>
-              <tr>
-                <th className="table-head">Name</th>
-                <th className="table-head">Amount</th>
-                <th className="table-head">Daily Percent</th>
-              </tr>
-            </thead>
-            <tbody>{nutrients}</tbody>
-          </table>
-        </ul>
+        <div id="ingredient-data">
+          <div className="ingredient-data--header">
+            <img
+              className="ingredient-data--img"
+              src={`https://spoonacular.com/cdn/ingredients_100x100/${ingredientData.image}`}
+              alt={ingredientData.name}
+            />
+            <div className="ingredient-data--name">{ingredientData.name}</div>
+          </div>
+
+          <div className="ingredient-data--info">
+            <div className="ingredient-data--item">
+              <div className="item-label">Amount</div>
+              <div className="item-value">{props.amount}</div>
+            </div>
+            <div className="ingredient-data--item">
+              <div className="item-label">Estimated Cost</div>
+              <div className="item-value">
+                {(ingredientData.estimatedCost.value / 100).toFixed(2)}
+              </div>
+            </div>
+            <div className="ingredient-data--item">
+              <div className="item-label">Weight</div>
+              <div className="item-value">
+                {ingredientData.nutrition.weightPerServing.amount}
+                {ingredientData.nutrition.weightPerServing.unit}
+              </div>
+            </div>
+            <div className="ingredient-data--item">
+              <div className="item-label">Category</div>
+              <div className="item-value">{ingredientData.categoryPath[0]}</div>
+            </div>
+            <div className="ingredient-data--item">
+              <div className="item-label">Consistency</div>
+              <div className="item-value">{ingredientData.consistency}</div>
+            </div>
+            <div className="ingredient-data--item">
+              <div className="item-label">Aisle</div>
+              <div className="item-value">{ingredientData.aisle}</div>
+            </div>
+            <div className="ingredient-data--item">
+              <div className="item-label">Carbs</div>
+              <div className="item-value">
+                {ingredientData.nutrition.caloricBreakdown.percentCarbs}%
+              </div>
+            </div>
+            <div className="ingredient-data--item">
+              <div className="item-label">Fat</div>
+              <div className="item-value">
+                {ingredientData.nutrition.caloricBreakdown.percentFat}%
+              </div>
+            </div>
+            <div className="ingredient-data--item">
+              <div className="item-label">Protein</div>
+              <div className="item-value">
+                {ingredientData.nutrition.caloricBreakdown.percentProtein}%
+              </div>
+            </div>
+            <div className="ingredient-data--item">
+              <div className="item-label">Nutrition Score</div>
+              <div className="item-value">
+                {ingredientData.nutrition.properties[3].amount.toFixed(2)}%
+              </div>
+            </div>
+            <div className="ingredient-data--item">
+              <div className="item-label">Inflam. Score</div>
+              <div className="item-value">
+                {ingredientData.nutrition.properties[2].amount}
+              </div>
+            </div>
+            <div className="ingredient-data--item">
+              <div className="item-label">Glycemic Index</div>
+              <div className="item-value">
+                {ingredientData.nutrition.properties[1].amount.toFixed(2)}
+              </div>
+            </div>
+          </div>
+
+          <div className="table-container">
+            <table className="table" id="ingredient-table">
+              <thead>
+                <tr>
+                  <th className="table-head">Name</th>
+                  <th className="table-head">Amount</th>
+                  <th className="table-head">Daily Percent</th>
+                </tr>
+              </thead>
+              <tbody>{nutrients}</tbody>
+            </table>
+          </div>
+        </div>
       ) : (
         <p>Loading....</p>
       )}

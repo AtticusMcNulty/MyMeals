@@ -2,7 +2,7 @@ import React from "react";
 import MyIngredients from "./MyIngredients";
 import MyMeals from "./MyMeals";
 
-function MyFood() {
+function MyFood(props) {
   const [ingredients, setIngredients] = React.useState(function () {
     const storedIngredients = localStorage.getItem("ingredients");
     return storedIngredients ? JSON.parse(storedIngredients) : [];

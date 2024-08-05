@@ -1,8 +1,16 @@
 import React from "react";
 import ShoppingCart from "./ShoppingCart";
 import ingredients from "../data/ingredients";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowRight,
+  faArrowLeft,
+  faX,
+  faPlus,
+  faMinus,
+} from "@fortawesome/free-solid-svg-icons";
 
-function Fridge(props) {
+function Fridge({ handleFridgeToRecipes }) {
   /* IN FRIDGE */
   const [foodsArrAvaliable, setFoodsAvaliable] = React.useState(function () {
     const avaliableFoods = localStorage.getItem("avaliableFoods");
@@ -10,7 +18,9 @@ function Fridge(props) {
   });
 
   function addAvaliableFood() {
-    const foodItem = document.getElementById("fridge--add--input").value;
+    const foodItem = document
+      .getElementById("fridge--add--input")
+      .value.toLowerCase();
 
     if (foodsArrAvaliable.includes(foodItem)) {
       alert("Please add an item not already in list");
@@ -19,6 +29,8 @@ function Fridge(props) {
       alert("Enter a valid food");
       return;
     }
+
+    console.log(foodsArrAvaliable, ingredients);
 
     setFoodsAvaliable(function (prevFoodsArr) {
       const updatedFoodsArr = [...prevFoodsArr, foodItem];
@@ -133,38 +145,32 @@ function Fridge(props) {
         <div className="fridge--storage--list-item--amount">
           <button
             className="default-button--char"
-            onClick={function () {
-              adjustStorageAmounts(index, -1);
-            }}
+            onClick={() => adjustStorageAmounts(index, -1)}
           >
-            -
+            <FontAwesomeIcon icon={faMinus} />
           </button>
           <div className={divClassName}>{storageAmounts[index]}</div>
           <button
             className="default-button--char"
-            onClick={function () {
-              adjustStorageAmounts(index, 1);
-            }}
+            onClick={() => adjustStorageAmounts(index, 1)}
           >
-            +
+            <FontAwesomeIcon icon={faPlus} />
           </button>
         </div>
-        <button
-          className="default-button--char"
-          onClick={function () {
-            removeAvaliableFood(index);
-          }}
-        >
-          X
-        </button>
-        <button
-          className="default-button--char"
-          onClick={function () {
-            switchToUnavaliable(index);
-          }}
-        >
-          →
-        </button>
+        <div className="fridge--storage--list-item--modify">
+          <button
+            className="default-button--char"
+            onClick={() => removeAvaliableFood(index)}
+          >
+            <FontAwesomeIcon icon={faX} />
+          </button>
+          <button
+            className="default-button--char"
+            onClick={() => switchToUnavaliable(index)}
+          >
+            <FontAwesomeIcon icon={faArrowRight} />
+          </button>
+        </div>
       </div>
     );
   });
@@ -226,22 +232,25 @@ function Fridge(props) {
             Add to Cart
           </span>
         </div>
-        <button
-          className="default-button--char"
-          onClick={function () {
-            removeUnavaliableFood(index);
-          }}
-        >
-          X
-        </button>
-        <button
-          className="default-button--char"
-          onClick={function () {
-            switchToAvaliable(index);
-          }}
-        >
-          ←
-        </button>
+
+        <div className="fridge--storage--list-item--modify">
+          <button
+            className="default-button--char"
+            onClick={function () {
+              removeUnavaliableFood(index);
+            }}
+          >
+            <FontAwesomeIcon icon={faX} />
+          </button>
+          <button
+            className="default-button--char"
+            onClick={function () {
+              switchToAvaliable(index);
+            }}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </button>
+        </div>
       </div>
     );
   });
@@ -320,7 +329,7 @@ function Fridge(props) {
 
   return (
     <div id="inventory" className="component active">
-      <div className="fridge">
+      <div className="default-section">
         <div className="search-bar">
           <input
             type="text"
@@ -331,32 +340,30 @@ function Fridge(props) {
             Add Item to Fridge
           </button>
         </div>
-        <div className="fridge--storage">
-          <div className="fridge-section">
+        <div className="default-section--content">
+          <div className="default-section--item">
             <h3 className="section--header">Fridge</h3>
             <ul className="section--list">{avaliableFoodsArr}</ul>
             <button
               className="default-button"
               id="fridge--storage--add-to-recipes"
-              onClick={function () {
-                props.handleFridgeToRecipes(foodsArrAvaliable);
-              }}
+              onClick={() => handleFridgeToRecipes(foodsArrAvaliable)}
             >
               Add Fridge to Recipes
             </button>
           </div>
-          <div className="fridge-section">
+          <div className="default-section--item">
             <h3 className="section--header">Out of Stock</h3>
             <ul className="section--list">{unavaliableFoodsArr}</ul>
           </div>
+          <ShoppingCart
+            cart={cartItems}
+            quantities={quantities}
+            onRemoveItem={handleRemoveItem}
+            onSubtractItem={handleSubtractItem}
+          />
         </div>
       </div>
-      <ShoppingCart
-        cart={cartItems}
-        quantities={quantities}
-        onRemoveItem={handleRemoveItem}
-        onSubtractItem={handleSubtractItem}
-      />
     </div>
   );
 }

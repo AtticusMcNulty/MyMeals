@@ -103,9 +103,6 @@ function SearchItems(props) {
     if (Object.values(ingredients).includes(ingredients[ingredient])) {
       setAmount(prompt("Enter amount for food item: "));
       setIngredientID(ingredients[ingredient]);
-      document.getElementById(
-        "search-items--ingredient--add-to-ingredients"
-      ).style.display = "block";
     } else {
       alert("ingredient does not exist");
     }
@@ -124,34 +121,51 @@ function SearchItems(props) {
             Search Ingredient
           </button>
         </div>
-        {ingredientID ? <Ingredient id={ingredientID} amount={amount} /> : null}
-        <button
-          className="default-button"
-          id="search-items--ingredient--add-to-ingredients"
-          onClick={addIngredient}
-        >
-          Add Ing. to Recipe
-        </button>
-      </div>
-      <div className="default-section nonactive" id="recipes-section">
-        <h3 className="section--header">Recipes</h3>
-        <div className="search-items--recipe-search--ingredients">
-          <h5 className="search-items--recipe-search--ingredients--header">{`Ingredients: ${ingredientsList.join(
-            ", "
-          )}`}</h5>
-        </div>
-        {ingredientsList.length > 0 ? (
-          <Recipe list={ingredientsList.join(",+")} numRecipes={numRecipes} />
-        ) : null}
-        <div className="search-items--remove-ingredient">
-          <input
-            className="default-input"
-            id="search-items--remove-ingredient--input"
-          ></input>
-          <button className="default-button" onClick={removeIngredient}>
-            Remove Ing.
-          </button>
-        </div>
+
+        {ingredientID ? (
+          <div className="default-section--content">
+            <div className="default-section--item">
+              <h3 className="section--header">Ingredient Info</h3>
+              <Ingredient id={ingredientID} amount={amount} />
+              <button
+                className="default-button"
+                id="search-items--ingredient--add-to-ingredients"
+                onClick={addIngredient}
+              >
+                Add Ing. to Recipe
+              </button>
+            </div>
+
+            <div
+              className="default-section--item nonactive"
+              id="recipes-section"
+            >
+              <h3 className="section--header">Recipes</h3>
+              <div className="search-items--recipe-search--ingredients">
+                <div className="search-items--recipe-search--ingredients--header">{`Ingredients: ${ingredientsList.join(
+                  ", "
+                )}`}</div>
+              </div>
+              {ingredientsList.length > 0 ? (
+                <Recipe
+                  list={ingredientsList.join(",+")}
+                  numRecipes={numRecipes}
+                />
+              ) : null}
+              <div className="search-items--remove-ingredient">
+                <input
+                  className="default-input"
+                  id="search-items--remove-ingredient--input"
+                ></input>
+                <button className="default-button" onClick={removeIngredient}>
+                  Remove Ing.
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );
