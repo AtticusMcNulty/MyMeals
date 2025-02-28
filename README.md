@@ -16,4 +16,4 @@ Users are able maintain a table of ingredients. Stores their relevant nutritiona
 Allows users to compile their ingredients into a meal, automatically sums nutrional information. Meals can be added to days, which can then be added to a week. Gives users the ability to track their eating habits over the course of the week and make changes accordingly based on their end result.
 
 ## Hosted on GitHub Pages
-https://atticusmcnulty.github.io/ATTrack/
+https://atticusmcnulty.github.io/MyMeals/
