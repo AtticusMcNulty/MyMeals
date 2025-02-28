@@ -1,4 +1,4 @@
-# ATTrack
+# MyMeals
 ## Description
 MyMeals is an application that allows users to keep track of their food intake using spoonacular API.
 
